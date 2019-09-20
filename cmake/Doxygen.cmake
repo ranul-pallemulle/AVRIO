@@ -1,0 +1,7 @@
+option(AVRIO_BUILD_DOC "Build source code documentation using doxygen" OFF)
+if (AVRIO_BUILD_DOC)
+  find_package(Doxygen)
+  if (NOT DOXYGEN_FOUND)
+    message(WARNING "Doxygen not found. Building the documentation will fail.")
+  endif()
+endif()

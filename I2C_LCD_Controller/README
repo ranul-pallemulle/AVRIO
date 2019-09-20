@@ -1,0 +1,7 @@
+Description
+----------------
+In this program, the microcontroller acts as the I2C slave. It
+receives some text from a master which it then outputs this text to
+the attached LCD. It can also handle requests to get data from the LCD
+EEPROM. The goal here is to reduce the large number of connections
+required to connect to an LCD, to just the two required for I2C.

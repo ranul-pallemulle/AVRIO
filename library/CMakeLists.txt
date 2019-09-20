@@ -1,0 +1,5 @@
+# add_subdirectory(GSM)
+# add_subdirectory(GPS)
+# add_subdirectory(LCD)
+# add_subdirectory(MPU6050)
+add_subdirectory(TWI)

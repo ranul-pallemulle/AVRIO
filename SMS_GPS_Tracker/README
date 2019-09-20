@@ -1,0 +1,3 @@
+Description
+--------------------
+In this program, the GSM module receives a text message which prompts the microcontroller to wake up, obtain the current location using the GPS module, and send the latitude and longitude back to the number that made the request.
