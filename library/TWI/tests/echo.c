@@ -24,7 +24,7 @@ void my_callback_fn(unsigned char* buf, unsigned char len)
 }
 
 int main(void) {
-    twi_slave_init(0x12, RESPOND_TO_GEN_CALL);
+    twi_slave_init(0x10, RESPOND_TO_GEN_CALL);
     twi_slave_set_callback(my_callback_fn);
     twi_slave_receiver_mode();
     sei();

@@ -24,7 +24,7 @@
  * @param bit_rate The TWI bit rate.
  * @param prescaler The TWI prescaler value. Should be a value in {1,4,16,64}.
  */
-static inline void twi_set_scl(unsigned char bit_rate, unsigned char prescaler)
+inline void twi_set_scl(unsigned char bit_rate, unsigned char prescaler)
 {
     TWBR = bit_rate;
     switch (prescaler)
@@ -55,7 +55,7 @@ static inline void twi_set_scl(unsigned char bit_rate, unsigned char prescaler)
  * @param gen_call_enable Whether the slave should respond to the
  * general call address. This should be a value of 1 or 0.
  */
-static inline void twi_set_self_slave_address(unsigned char addr,
+inline void twi_set_self_slave_address(unsigned char addr,
                                        unsigned char gen_call_enable)
 {
     if (gen_call_enable != RESPOND_TO_GEN_CALL &&
@@ -71,7 +71,7 @@ static inline void twi_set_self_slave_address(unsigned char addr,
  *
  * This function should be called by a master.
  */
-static inline void twi_send_start(void)
+inline void twi_send_start(void)
 {
     TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN) | (1 << TWIE);
 }
@@ -81,7 +81,7 @@ static inline void twi_send_start(void)
  *
  * This function should be called by a master.
  */
-static inline void twi_send_stop(void)
+inline void twi_send_stop(void)
 {
     TWCR = (1 << TWINT) | (1 << TWSTO) | (1 << TWEN) | (1 << TWIE);
 }
@@ -90,7 +90,7 @@ static inline void twi_send_stop(void)
  * @brief Write a data or address byte to the bus.
  * @param byte The byte to write to the bus.
  */
-static inline void twi_write_byte(unsigned char byte)
+inline void twi_write_byte(unsigned char byte)
 {
     TWDR = byte;
     TWCR = (1 << TWINT) | (1 << TWEN) | (1 << TWIE) | (1 << TWEA);
@@ -100,7 +100,7 @@ static inline void twi_write_byte(unsigned char byte)
  * @brief Clear the TWINT flag and enable acknowledge.
  */
 /* clear TWINT and enable acknowledge */
-static inline void twi_clear_flag(void)
+inline void twi_clear_flag(void)
 {
     TWCR = (1 << TWINT) | (1 << TWEN) | (1 << TWIE) | (1 << TWEA);
 }
@@ -108,7 +108,7 @@ static inline void twi_clear_flag(void)
 /**
  * @brief Disable TWI interrupt.
  */
-static inline void twi_disable(void)
+inline void twi_disable(void)
 {
     TWCR &= ~(1 << TWIE);
 }
@@ -117,7 +117,7 @@ static inline void twi_disable(void)
  * @brief Read a data byte and send back an ACK.
  * @param byteptr Pointer to the memory to write the received data.
  */
-static inline void twi_read_byte_ACK(unsigned char *byteptr)
+inline void twi_read_byte_ACK(unsigned char *byteptr)
 {
     *byteptr = TWDR;
     TWCR     = (1 << TWINT) | (1 << TWEN) | (1 << TWIE) | (1 << TWEA);
@@ -128,7 +128,7 @@ static inline void twi_read_byte_ACK(unsigned char *byteptr)
  * @brief Read a data byte and send back a NACK.
  * @param byteptr Pointer to the memory to write the received data.
  */
-static inline void twi_read_byte_NACK(unsigned char *byteptr)
+inline void twi_read_byte_NACK(unsigned char *byteptr)
 {
     *byteptr = TWDR;
     TWCR     = (1 << TWINT) | (1 << TWEN) | (1 << TWIE);

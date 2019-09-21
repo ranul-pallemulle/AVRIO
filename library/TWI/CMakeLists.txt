@@ -8,6 +8,7 @@ endif()
 
 if (AVRIO_MODULE_TWI)
   set(TWI_SOURCES
+    twi.c
     twi_slave.c
     twi_master.c
     )
