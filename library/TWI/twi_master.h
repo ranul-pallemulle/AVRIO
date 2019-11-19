@@ -27,7 +27,7 @@
  * correct pull up resistor value on the TWI bus.
  * SCL_freq = F_CPU/(16 + 2(TWBR)(PrescalerValue))
  */
-void twi_master_init_4khz(void);
+void twi_master_init_400khz(void);
 
 /**
  * @brief Call twi_master_init() with a bitrate such that SCL is set to
@@ -37,7 +37,7 @@ void twi_master_init_4khz(void);
  * correct pull up resistor value on the TWI bus.
  * SCL_freq = F_CPU/(16 + 2(TWBR)(PrescalerValue))
  */
-void twi_master_init_1khz(void);
+void twi_master_init_100khz(void);
 
 /**
  * @brief Start polled TWI master operation.
@@ -48,7 +48,7 @@ void twi_master_init_1khz(void);
  * register.
  * @param The prescaler value to use. Should be a value in {1,4,16,64}.
  */
-void twi_master_init(unsigned char bitrate, char prescaler);
+void twi_master_init(unsigned char bitrate, unsigned char prescaler);
 
 /**
  * @brief Put the start condition on the bus.
@@ -58,9 +58,8 @@ int twi_master_send_start(void);
 
 /**
  * @brief Put the stop condition on the bus.
- * @return -1 if an error occurred, else 0.
  */
-int twi_master_send_stop(void);
+void twi_master_send_stop(void);
 
 /**
  * @brief Select the slave to read from or write to.
@@ -69,7 +68,7 @@ int twi_master_send_stop(void);
  * is to be written to.
  * @return -1 if an error occurred, else 0.
  */
-int twi_master_select_slave(unsigned char addr, char readwrite);
+int twi_master_select_slave(unsigned char addr, unsigned char readwrite);
 
 /**
  * @brief Write a single byte to the bus.
@@ -77,7 +76,7 @@ int twi_master_select_slave(unsigned char addr, char readwrite);
  * @return 1 if the slave ACKed the byte. 0 if the slave NACKed the
  * byte. -1 if an error occurred.
  */
-int twi_master_write_byte(unsigned char byte);
+int twi_master_write_byte(char byte);
 
 /**
  * @brief Write multiple bytes of data to the bus.
@@ -86,7 +85,7 @@ int twi_master_write_byte(unsigned char byte);
  * @return 1 if the slave ACKed the last byte sent. 0 if the slave
  * NACKed any bytes. -1 if an error occurred.
  */
-int twi_master_write_bytes(unsigned char *data, char nbytes);
+int twi_master_write_bytes(const char *data, char nbytes);
 
 /**
  * @brief Read multiple bytes from the bus.
@@ -95,7 +94,7 @@ int twi_master_write_bytes(unsigned char *data, char nbytes);
  * @param nbytes Number of bytes to receive.
  * @return -1 if an error occurred, else 0.
  */
-int twi_master_read_bytes(unsigned char *data, char nbytes);
+int twi_master_read_bytes(char *data, char nbytes);
 
 /**
  * @brief Read multiple bytes from a specific slave device.
@@ -109,7 +108,7 @@ int twi_master_read_bytes(unsigned char *data, char nbytes);
  * @param nbytes Number of bytes to receive.
  * @return -1 if an error occurred, else 0.
  */
-int twi_master_read_from_device(unsigned char addr, unsigned char *data,
+int twi_master_read_from_device(unsigned char addr, char *data,
                                 char nbytes);
 
 /**
@@ -128,7 +127,7 @@ int twi_master_read_from_device(unsigned char addr, unsigned char *data,
  * @return -1 if an error occurred, else 0.
  */
 int twi_master_read_from_device_register(unsigned char addr, unsigned char reg,
-                                         unsigned char *data, char nbytes);
+                                         char *data, char nbytes);
 
 /**
  * @brief Write multiple bytes to a register of a specific slave
@@ -145,6 +144,6 @@ int twi_master_read_from_device_register(unsigned char addr, unsigned char reg,
  * @return -1 if an error occurred, else 0.
  */
 int twi_master_write_to_device_register(unsigned char addr, unsigned char reg,
-                                        unsigned char *data, char nbytes);
+                                        const char *data, char nbytes);
 
 #endif /* TWI_MASTER_H */

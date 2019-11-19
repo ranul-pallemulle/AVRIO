@@ -73,7 +73,8 @@ inline void twi_set_self_slave_address(unsigned char addr,
  */
 inline void twi_send_start(void)
 {
-    TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN) | (1 << TWIE);
+    /* TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN) | (1 << TWIE); */
+    TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
 }
 
 /**
@@ -83,14 +84,15 @@ inline void twi_send_start(void)
  */
 inline void twi_send_stop(void)
 {
-    TWCR = (1 << TWINT) | (1 << TWSTO) | (1 << TWEN) | (1 << TWIE);
+     /* TWCR = (1 << TWINT) | (1 << TWSTO) | (1 << TWEN) | (1 << TWIE); */
+    TWCR = (1 << TWINT) | (1 << TWSTO) | (1 << TWEN);
 }
 
 /**
  * @brief Write a data or address byte to the bus.
  * @param byte The byte to write to the bus.
  */
-inline void twi_write_byte(unsigned char byte)
+inline void twi_write_byte(char byte)
 {
     TWDR = byte;
     TWCR = (1 << TWINT) | (1 << TWEN) | (1 << TWIE) | (1 << TWEA);
@@ -117,7 +119,7 @@ inline void twi_disable(void)
  * @brief Read a data byte and send back an ACK.
  * @param byteptr Pointer to the memory to write the received data.
  */
-inline void twi_read_byte_ACK(unsigned char *byteptr)
+inline void twi_read_byte_ACK(char *byteptr)
 {
     *byteptr = TWDR;
     TWCR     = (1 << TWINT) | (1 << TWEN) | (1 << TWIE) | (1 << TWEA);
@@ -128,7 +130,7 @@ inline void twi_read_byte_ACK(unsigned char *byteptr)
  * @brief Read a data byte and send back a NACK.
  * @param byteptr Pointer to the memory to write the received data.
  */
-inline void twi_read_byte_NACK(unsigned char *byteptr)
+inline void twi_read_byte_NACK(char *byteptr)
 {
     *byteptr = TWDR;
     TWCR     = (1 << TWINT) | (1 << TWEN) | (1 << TWIE);

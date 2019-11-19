@@ -15,7 +15,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <twi_slave.h>
-#include <twi.h>
 #include <util/delay.h>
 
 void my_callback_fn(unsigned char* buf, unsigned char len)
@@ -24,16 +23,16 @@ void my_callback_fn(unsigned char* buf, unsigned char len)
 }
 
 int main(void) {
-    twi_slave_init(0x10, RESPOND_TO_GEN_CALL);
-    twi_slave_set_callback(my_callback_fn);
     twi_slave_receiver_mode();
+    twi_slave_init(0x10, 1);
     sei();
+    
     DDRB |= (1 << DDB5);
     for ( ; ; ) {
 	PORTB |= (1 << PB5);
-	_delay_ms(1000);
+	_delay_ms(500);
 	PORTB &= ~(1 << PB5);
-	_delay_ms(1000);
+	_delay_ms(500);
     }
     return 0;
 }

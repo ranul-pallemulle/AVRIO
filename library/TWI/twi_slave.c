@@ -16,23 +16,23 @@
 #define TRANSMITTER 1
 #define RECEIVER 0
 
-static void (*call_back)(unsigned char *data, unsigned char len);
-static unsigned char databuf[MAXBUFFLEN];
-static unsigned char *buffptr;
+static void (*call_back)(char *data, unsigned char len);
+static char databuf[MAXBUFFLEN];
+static char *buffptr;
 static int nbytes = 0; /* number of bytes of data in databuf */
 static char mode  = RECEIVER;
 
-void twi_slave_set_callback(void (*func)(unsigned char *, unsigned char))
+void twi_slave_set_callback(void (*func)(char *, unsigned char))
 {
     call_back = func;
 }
 
-void twi_slave_set_data(unsigned char *data, unsigned char len)
+void twi_slave_set_data(const char *data, unsigned char len)
 {
     twi_disable();
-    unsigned char true_len = MIN(len, MAXBUFFLEN);
+    int true_len = MIN(len, MAXBUFFLEN);
     nbytes                 = len;
-    unsigned char *ptr     = databuf;
+    char *ptr     = databuf;
     while (true_len-- > 0)
     {
         *ptr++ = *data++;

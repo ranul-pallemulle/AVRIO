@@ -28,7 +28,7 @@
  * function is a pointer to the data. The second argument is the
  * number of bytes received.
  */
-void twi_slave_set_callback(void (*func)(unsigned char *, unsigned char));
+void twi_slave_set_callback(void (*func)(char *, unsigned char));
 
 /**
  * @brief Copy data to an internal buffer so that it can be sent on
@@ -40,7 +40,7 @@ void twi_slave_set_callback(void (*func)(unsigned char *, unsigned char));
  * @param len Number of bytes to be copied starting from the first
  * byte.
  */
-void twi_slave_set_data(unsigned char *data, unsigned char len);
+void twi_slave_set_data(const char *data, unsigned char len);
 
 /**
  * @brief Set the current mode to transmitter mode.

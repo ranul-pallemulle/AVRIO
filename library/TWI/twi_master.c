@@ -6,19 +6,19 @@
 
 #define PRESC_MASK 0xF8 /* mask prescaler bits in TWSR */
 
-void twi_master_init_4khz(void)
+void twi_master_init_400khz(void)
 {
     unsigned char bitrate = (F_CPU / 400000UL - 16) / 2;
     twi_master_init(bitrate, 1);
 }
 
-void twi_master_init_1khz(void)
+void twi_master_init_100khz(void)
 {
     unsigned char bitrate = (F_CPU / 100000UL - 16) / 2;
     twi_master_init(bitrate, 1);
 }
 
-void twi_master_init(unsigned char bitrate, char prescaler)
+void twi_master_init(unsigned char bitrate, unsigned char prescaler)
 {
     TWBR = bitrate;
     switch (prescaler)
@@ -54,16 +54,12 @@ int twi_master_send_start(void)
     return 0;
 }
 
-int twi_master_send_stop(void)
+void twi_master_send_stop(void)
 {
     twi_send_stop();
-    while (!(TWCR & (1 << TWINT)))
-    {
-    }
-    return 0;
 }
 
-int twi_master_select_slave(unsigned char addr, char readwrite)
+int twi_master_select_slave(unsigned char addr, unsigned char readwrite)
 {
     if (readwrite != 1 || readwrite != 0)
     {
@@ -78,13 +74,10 @@ int twi_master_select_slave(unsigned char addr, char readwrite)
     {
         return 0;
     }
-    else
-    {
-        return -1;
-    }
+    return -1;
 }
 
-int twi_master_write_byte(unsigned char byte)
+int twi_master_write_byte(char byte)
 {
     twi_write_byte(byte);
     while (!(TWCR & (1 << TWINT)))
@@ -99,13 +92,10 @@ int twi_master_write_byte(unsigned char byte)
     {
         return 0;
     }
-    else
-    {
-        return -1;
-    }
+    return -1;
 }
 
-int twi_master_write_bytes(unsigned char *data, char nbytes)
+int twi_master_write_bytes(const char *data, char nbytes)
 {
     int status;
     while (nbytes > 0)
@@ -119,7 +109,7 @@ int twi_master_write_bytes(unsigned char *data, char nbytes)
     return status;
 }
 
-int twi_master_read_bytes(unsigned char *data, char nbytes)
+int twi_master_read_bytes(char *data, char nbytes)
 {
     if (nbytes < 1)
     {
@@ -155,7 +145,7 @@ int twi_master_read_bytes(unsigned char *data, char nbytes)
     return 0;
 }
 
-int twi_master_read_from_device(unsigned char addr, unsigned char *data,
+int twi_master_read_from_device(unsigned char addr, char *data,
                                 char nbytes)
 {
     int res = 0;
@@ -178,16 +168,12 @@ int twi_master_read_from_device(unsigned char addr, unsigned char *data,
     {
         return -1;
     }
-    res = twi_master_send_stop();
-    if (res)
-    {
-        return -1;
-    }
+    twi_master_send_stop();
     return 0;
 }
 
 int twi_master_read_from_device_register(unsigned char addr, unsigned char reg,
-                                         unsigned char *data, char nbytes)
+                                         char *data, char nbytes)
 {
     int res = 0;
     if (nbytes < 1)
@@ -224,16 +210,12 @@ int twi_master_read_from_device_register(unsigned char addr, unsigned char reg,
     {
         return -1;
     }
-    res = twi_master_send_stop();
-    if (res)
-    {
-        return -1;
-    }
+    twi_master_send_stop();
     return 0;
 }
 
 int twi_master_write_to_device_register(unsigned char addr, unsigned char reg,
-                                        unsigned char *data, char nbytes)
+                                        const char *data, char nbytes)
 {
     int res = 0;
     if (nbytes < 1)
@@ -270,10 +252,6 @@ int twi_master_write_to_device_register(unsigned char addr, unsigned char reg,
     {
         return -1;
     }
-    res = twi_master_send_stop();
-    if (res)
-    {
-        return -1;
-    }
+    twi_master_send_stop();
     return 0;
 }
